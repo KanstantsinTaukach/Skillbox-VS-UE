@@ -13,9 +13,7 @@ double SquareOfTheSum(double a, double b) {
 }
 
 void FindOddNumbers(int Limit, bool isOdd) {
-	for (int i = 0; i <= Limit; ++i) {
-		if (i % 2 == isOdd) {
-			std::cout << i << std::endl;
-		}
+	for (int i = isOdd; i <= Limit; i = i + 2) {
+		std::cout << i << " ";
 	}
 }

@@ -20,8 +20,7 @@ int main()
     std::cout << "Last char in string is: " << str[length - 1] << std::endl;*/
 
     int n = 100;
-    bool isOdd = false;
-    FindOddNumbers(n, isOdd);
+    FindOddNumbers(n, false);
 
     return 0;
 }
