@@ -2,6 +2,7 @@
 #include <string>
 #include <ctime>
 #include "Helpers.h"
+#include "MyVector.h"
 
 
 
@@ -43,8 +44,30 @@ int main()
     for (int i = 0; i < SIZE; ++i) {
         sum += Arr[rows][i];
     }
-
+    
     std::cout << std::endl << "Sum of Array in " << rows << " row is: " << sum << std::endl;
+
+
+
+
+    std::cout << "\n\n<<<<<<<<<<<<<<<Class Vector>>>>>>>>>>>>>" << std::endl;
+
+    MyVector v1;
+    v1.printVector();
+    
+    v1.setVector(1.1, 3.3, 5.5);
+    std::cout << "\n\nVector after setVector function:";
+    v1.printVector();
+
+    v1.setX(8.888);
+    std::cout << "\n\nVector after setX function:";
+    v1.printVector();
+
+    std::cout << "\n\nResult of getX function: \n";
+    std::cout << v1.getX() << std::endl;
+
+    std::cout << "\nResult of getVectorModule function: \n";
+    std::cout << v1.getVectorModule() << std::endl;;
 
     return 0;
 }
