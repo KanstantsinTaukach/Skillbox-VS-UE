@@ -129,11 +129,13 @@
   <ItemGroup>
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="MyVector.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="SkillboxVS&amp;UE.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="MyVector.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
