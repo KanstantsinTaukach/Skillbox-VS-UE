@@ -1,34 +1,63 @@
 #include <iostream>
-#include "Player.h"
+#include <string>
+
+constexpr int ARRSIZE = 10;
+
+class Animal
+{
+public:
+    virtual void Voice() = 0;
+};
+
+class Dog : public Animal
+{
+    void Voice() override
+    {
+        std::cout << "A dog sais: Woof - woof!";
+    }
+};
+
+class MarchCat : public Animal
+{
+    void Voice() override
+    {
+        std::cout << "A march cat screams: MeeeeoooooowwWW!";
+    }
+};
+
+class Badger : public Animal
+{
+    void Voice() override
+    {
+        std::cout << "A badger (illegible): Brr - mrrr - prrrr";
+    }
+};
 
 int main()
 {
-    int size;
-    
-    do 
+    Animal* Animals[ARRSIZE];
+
+    for (int i = 0; i < ARRSIZE; ++i)
     {
-        std::cout << "Enter the number of players" << std::endl;
-        std::cin >> size;
-    } while (size < 2);
+        if (i % 3 == 0)
+        {
+            Animals[i] = new Dog;
+        }
+        else if (i % 3 == 1)
+        {
+            Animals[i] = new MarchCat;
+        }
+        else
+        {
+            Animals[i] = new Badger;
+        }
+    }
     
-    Player* PlayersArray = new Player[size];
-
-    for (int i = 0; i < size; ++i)
+    for (int i = 0; i < ARRSIZE; ++i)
     {
-        (PlayersArray + i)->SetName();
-        (PlayersArray + i)->SetScore();
-    };
-
-    std::cout << std::endl << "Players before swap: " << std::endl;
-    DisplayPlayers(PlayersArray, size);
-
-    SimpleSort(PlayersArray, size);
-
-    std::cout << std::endl << "Players after swap: " << std::endl;
-    DisplayPlayers(PlayersArray, size);
-
-    delete[] PlayersArray;
-    PlayersArray = nullptr;
-
+        Animals[i]->Voice();
+        std::cout << std::endl;
+    }
+   
     return 0;
 }
