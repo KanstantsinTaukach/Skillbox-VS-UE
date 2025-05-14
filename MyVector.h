@@ -21,7 +21,19 @@ public:
 	double getX() const;
 	double getY() const;
 	double getZ() const;
-		
+	
 	double getVectorModule() const;
+
+	MyVector operator+(const MyVector&);
+	MyVector operator-(const MyVector&);
+	MyVector operator*(const int);
+
+	double operator[](int) const;
+
+	operator double();
+
+	friend std::ostream& operator<<(std::ostream&, const MyVector&);
+	friend std::istream& operator>>(std::istream&, MyVector&);
 };
 
+MyVector operator*(int, const MyVector&);

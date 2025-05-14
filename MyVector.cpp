@@ -56,3 +56,64 @@ double MyVector::getVectorModule() const
 {
 	return sqrt(x * x + y * y + z * z);
 }
+
+MyVector MyVector::operator+(const MyVector& other)
+{
+	return MyVector(x + other.x, y + other.y, z + other.z);
+}
+
+MyVector MyVector::operator-(const MyVector& other)
+{
+	return MyVector(x - other.x, y - other.y, z - other.z);
+}
+
+MyVector MyVector::operator*(const int val)
+{
+	return MyVector(x * val, y * val, z * val);
+}
+
+double MyVector::operator[](int index) const
+{
+	std::cout << std::endl;
+
+	switch (index)
+	{
+	case 0:
+		return x;
+		break;
+	case 1:
+		return y;
+		break;
+	case 2:
+		return z;
+		break;
+	default:
+		std::cout << "Incorrect index ";
+		return 0;
+		break;
+	}
+}
+
+MyVector::operator double()
+{
+	return getVectorModule();
+}
+
+
+
+std::ostream& operator<<(std::ostream& out, const MyVector& v)
+{
+	out << "x = " << v.x << " y = " << v.y << " z = " << v.z;
+	return out;
+}
+
+std::istream& operator>>(std::istream& in, MyVector& v)
+{
+	in >> v.x >> v.y >> v.z;
+	return in;
+}
+
+MyVector operator*(int val, const MyVector& v)
+{
+	return MyVector(v.getX() * val, v.getY() * val, v.getZ() * val);
+}
