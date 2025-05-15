@@ -3,15 +3,60 @@
 #include "MyVector.h"
 
 
-MyVector::MyVector() : x(0), y(0), z(0)
+MyVector::MyVector() : x(0), y(0), z(0), Info(nullptr)
 {
 	std::cout << "\nDefault constructor";
 }
 
-MyVector::MyVector(double _x, double _y, double _z)
+MyVector::MyVector(double _x, double _y, double _z) : Info(nullptr)
 {
 	std::cout << "\nConstructor with arguments";
 	setVector(_x, _y, _z);
+}
+
+MyVector::MyVector(double num)
+{
+	std::cout << "\nConstructor with number";
+	x = num;
+	y = num;
+	z = num;
+
+	Info = new std::string("\nInfo with number");
+}
+
+MyVector::MyVector(const MyVector& other) : Info(nullptr)
+{
+	std::cout << "\nCopy constructor";
+	x = other.x;
+	y = other.y;
+	z = other.z;
+
+	if (other.Info)
+	{
+		Info = new std::string(*other.Info);
+	}
+}
+
+MyVector& MyVector::operator=(const MyVector& other)
+{
+	if (this != &other)
+	{
+		std::cout << "\nOperator=";
+		x = other.x;
+		y = other.y;
+		z = other.z;
+
+		delete Info;
+		Info = (other.Info) ? new std::string(*other.Info) : nullptr;
+	}
+
+	return (*this);
+}
+
+MyVector::~MyVector()
+{
+	std::cout << "\nDestructor";
+	delete Info;
 }
 
 void MyVector::setVector(double _x, double _y, double _z)
@@ -19,6 +64,8 @@ void MyVector::setVector(double _x, double _y, double _z)
 	x = _x;
 	y = _y;
 	z = _z;
+
+	Info = new std::string("\nInfo");
 }
 
 void MyVector::setX(double _x)
@@ -72,7 +119,7 @@ MyVector MyVector::operator*(const int val)
 	return MyVector(x * val, y * val, z * val);
 }
 
-double MyVector::operator[](int index) const
+const double MyVector::operator[](int index) const
 {
 	std::cout << std::endl;
 
@@ -88,7 +135,7 @@ double MyVector::operator[](int index) const
 		return z;
 		break;
 	default:
-		std::cout << "Incorrect index ";
+		std::cout << "Invalid index for MyVector";
 		return 0;
 		break;
 	}

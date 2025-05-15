@@ -6,9 +6,20 @@ private:
 	double x;
 	double y;
 	double z;
+
+	std::string* Info;
+
 public:
 	MyVector();
 	MyVector(double, double, double);
+	explicit MyVector(double);
+	MyVector(int) = delete;
+	MyVector(float) = delete;
+
+	MyVector(const MyVector&);
+	MyVector& operator=(const MyVector&);
+
+	~MyVector();
 
 	void setVector(double, double, double);
 
@@ -28,9 +39,9 @@ public:
 	MyVector operator-(const MyVector&);
 	MyVector operator*(const int);
 
-	double operator[](int) const;
+	const double operator[](int) const;
 
-	operator double();
+	explicit operator double();
 
 	friend std::ostream& operator<<(std::ostream&, const MyVector&);
 	friend std::istream& operator>>(std::istream&, MyVector&);
