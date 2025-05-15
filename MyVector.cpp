@@ -3,38 +3,26 @@
 #include "MyVector.h"
 
 
-MyVector::MyVector() : x(0), y(0), z(0), Info(nullptr)
+MyVector::MyVector() : x(0), y(0), z(0), Info(new std::string("Default Info"))
 {
 	std::cout << "\nDefault constructor";
 }
 
-MyVector::MyVector(double _x, double _y, double _z) : Info(nullptr)
+MyVector::MyVector(double _x, double _y, double _z) : x(_x), y(_y), z(_z), Info(new std::string("Info with arguments"))
 {
 	std::cout << "\nConstructor with arguments";
-	setVector(_x, _y, _z);
 }
 
-MyVector::MyVector(double num)
+MyVector::MyVector(double num) : x(num), y(num), z(num), Info(new std::string("Info with number"))
 {
 	std::cout << "\nConstructor with number";
-	x = num;
-	y = num;
-	z = num;
-
-	Info = new std::string("\nInfo with number");
 }
 
-MyVector::MyVector(const MyVector& other) : Info(nullptr)
+MyVector::MyVector(const MyVector& other) : x(other.x), y(other.y), z(other.z)
 {
 	std::cout << "\nCopy constructor";
-	x = other.x;
-	y = other.y;
-	z = other.z;
-
-	if (other.Info)
-	{
-		Info = new std::string(*other.Info);
-	}
+	
+	Info = (other.Info) ? new std::string(*other.Info) : nullptr;
 }
 
 MyVector& MyVector::operator=(const MyVector& other)
@@ -50,7 +38,7 @@ MyVector& MyVector::operator=(const MyVector& other)
 		Info = (other.Info) ? new std::string(*other.Info) : nullptr;
 	}
 
-	return (*this);
+	return *this;
 }
 
 MyVector::~MyVector()
@@ -65,38 +53,22 @@ void MyVector::setVector(double _x, double _y, double _z)
 	y = _y;
 	z = _z;
 
+	delete Info;
 	Info = new std::string("\nInfo");
 }
 
-void MyVector::setX(double _x)
-{
-	x = _x;
-}
-void MyVector::setY(double _y)
-{
-	y = _y;
-}
-void MyVector::setZ(double _z)
-{
-	z = _z;
-}
+void MyVector::setX(double _x) {x = _x;}
+void MyVector::setY(double _y) {y = _y;}
+void MyVector::setZ(double _z) {z = _z;}
+
+double MyVector::getX() const {return x;}
+double MyVector::getY() const {return y;}
+double MyVector::getZ() const {return z;}
 
 void MyVector::printVector() const
 {
 	std::cout << "\nx = " << x << "\ny = " << y << "\nz = " << z;
-}
-
-double MyVector::getX() const
-{
-	return x;
-}
-double MyVector::getY() const
-{
-	return y;
-}
-double MyVector::getZ() const
-{
-	return z;
+	if(Info) std::cout << "\nInfo: " << *Info;
 }
 
 double MyVector::getVectorModule() const
@@ -150,13 +122,24 @@ MyVector::operator double()
 
 std::ostream& operator<<(std::ostream& out, const MyVector& v)
 {
-	out << "x = " << v.x << " y = " << v.y << " z = " << v.z;
+	out << "x = " << v.x << " y = " << v.y << " z = " << v.z << " Info = " ;
+	if (v.Info)
+	{
+		out << *v.Info;
+	}
+	else
+	{
+		out << "no info";
+	}
 	return out;
 }
 
 std::istream& operator>>(std::istream& in, MyVector& v)
 {
-	in >> v.x >> v.y >> v.z;
+	std::string str;
+	in >> v.x >> v.y >> v.z >> str;
+	delete v.Info;
+	v.Info = new std::string(str);
 	return in;
 }
 

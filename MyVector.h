@@ -21,9 +21,7 @@ public:
 
 	~MyVector();
 
-	void setVector(double, double, double);
-
-	void printVector() const;
+	void setVector(double, double, double);	
 
 	void setX(double);
 	void setY(double);
@@ -32,7 +30,9 @@ public:
 	double getX() const;
 	double getY() const;
 	double getZ() const;
-	
+
+	void printVector() const;
+
 	double getVectorModule() const;
 
 	MyVector operator+(const MyVector&);
