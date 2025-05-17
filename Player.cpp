@@ -7,10 +7,9 @@ Player::Player() : Name("Empty"), Score(0)
 
 }
 
-Player::Player(std::string name, int score)
+Player::Player(std::string name, int score) : Name(name), Score(score)
 {
-	Name = name;
-	Score = score;
+
 }
 
 void Player::SetName()

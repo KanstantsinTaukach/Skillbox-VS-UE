@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helpers.h" />
+    <ClInclude Include="MyData.h" />
     <ClInclude Include="MyVector.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
