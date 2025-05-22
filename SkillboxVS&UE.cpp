@@ -4,122 +4,56 @@
 
 #pragma once
 
-class Animal
+class Parent
+{
+protected:
+    int m_value;
+
+public:
+    Parent(int value) : m_value(value) {}
+    virtual ~Parent() {}
+};
+
+class Child : public Parent
 {
 protected:
     std::string m_name;
 
-    Animal(std::string name) : m_name(name)
+public:
+    Child(int value, std::string name) : Parent(value), m_name(name) {}
+    const std::string& getName() { return m_name; }
+};
+
+Parent* getObject(bool ReturnChild)
+{
+    if (ReturnChild)
     {
-        std::cout << "Animal()" << std::endl;
+        std::cout << "return Child" << std::endl;
+        return new Child(1, "Child");
     }
-
-public:
-    std::string getName() { return m_name; }
-    virtual const char* speak() = 0;
-};
-
-class Cat : public Animal
-{
-public:
-    Cat(std::string name) : Animal(name)
+    else
     {
-        std::cout << "Cat()" << std::endl;
+        std::cout << "return Parent" << std::endl;
+        return new Parent(2);
     }
-
-   const char* speak() override { return "Meow"; }
-};
-
-class Dog : public Animal
-{
-public:
-    Dog(std::string name) : Animal(name)
-    {
-        std::cout << "Dog()" << std::endl;
-    }
-
-    const char* speak() override { return "Woof"; }
-};
-
-//interface
-class IErrorLog
-{
-public:
-    virtual bool openLog(const char* fileName) = 0;
-    virtual bool closeLog() = 0;
-    virtual bool writeError(const char* errorMessage) = 0;
-
-    virtual ~IErrorLog() {};
-};
-
-class FileErrorLog : public IErrorLog
-{
-public:
-    bool openLog (const char* fileName) override
-    {
-        return true;
-    };
-    bool closeLog () override
-    {
-        std::cout << "FileErrorLog" << std::endl;
-        return true;
-    };
-    bool writeError (const char* errorMessage) override
-    {
-        return true;
-    };
-
-    ~FileErrorLog() override
-    {
-
-    };
-};
-
-class ConsoleErrorLog : public IErrorLog
-{
-public:
-    bool openLog(const char* fileName) override
-    {
-        return true;
-    };
-    bool closeLog() override
-    {
-        std::cout << "ConsoleErrorLog" << std::endl;
-        return true;
-    };
-    bool writeError(const char* errorMessage) override
-    {
-        return true;
-    };
-
-    ~ConsoleErrorLog() override
-    {
-
-    };
-};
-
-int func(int val, IErrorLog& log)
-{
-    log.closeLog();
-    return val + 1;
 }
-
 
 int main()
 {
-    Animal* BaseAnimal_Cat = new Cat("Murzak");
-    std::cout << BaseAnimal_Cat->speak() << std::endl << std::endl;
+    Parent* p = getObject(false);
 
-    Animal* BaseAnimal_Dog = new Dog("Sharik");
-    std::cout << BaseAnimal_Dog->speak() << std::endl << std::endl;
+    Child* c = dynamic_cast<Child*>(p);
+    if (c != nullptr)
+    {
+        std::cout << c->getName() << std::endl;
+    }
 
-    ConsoleErrorLog CEL;
-    int x = 5;
-    std::cout << func(x, CEL) << std::endl;
+    delete p;
 
-    FileErrorLog FEL;
-    int y = 2;
-    std::cout << func(y, FEL) << std::endl;
+    Child apple(3, "apple");
+    Parent& r_par_apple = apple;
+    Child& ref_apple = dynamic_cast<Child&>(r_par_apple);
+    std::cout << ref_apple.getName() << std::endl;
 
     return 0;
 }
