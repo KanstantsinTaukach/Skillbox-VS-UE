@@ -4,56 +4,48 @@
 
 #pragma once
 
-class Parent
+class PoweredDevice
 {
-protected:
-    int m_value;
-
 public:
-    Parent(int value) : m_value(value) {}
-    virtual ~Parent() {}
+    PoweredDevice(int power)
+    {
+        std::cout << "PoweredDevice: " << power << std::endl;
+    }
 };
 
-class Child : public Parent
+class Scanner : virtual public PoweredDevice
 {
-protected:
-    std::string m_name;
-
 public:
-    Child(int value, std::string name) : Parent(value), m_name(name) {}
-    const std::string& getName() { return m_name; }
+    Scanner(int scanner, int power) : PoweredDevice(power)
+    {
+        std::cout << "Scanner: " << scanner << std::endl;
+    }
 };
 
-Parent* getObject(bool ReturnChild)
+class Printer : virtual public PoweredDevice
 {
-    if (ReturnChild)
+public:
+    Printer(int printer, int power) : PoweredDevice(power)
     {
-        std::cout << "return Child" << std::endl;
-        return new Child(1, "Child");
+        std::cout << "Printer: " << printer << std::endl;
     }
-    else
+};
+
+class Copier : public Scanner, public Printer
+{
+public:
+    Copier(int scanner, int printer, int power) : Scanner(scanner, power), Printer(printer, power), 
+        PoweredDevice(power)
     {
-        std::cout << "return Parent" << std::endl;
-        return new Parent(2);
+
     }
-}
+};
 
 int main()
 {
-    Parent* p = getObject(false);
+    Copier copier(1, 2, 3);
 
-    Child* c = dynamic_cast<Child*>(p);
-    if (c != nullptr)
-    {
-        std::cout << c->getName() << std::endl;
-    }
-
-    delete p;
-
-    Child apple(3, "apple");
-    Parent& r_par_apple = apple;
-    Child& ref_apple = dynamic_cast<Child&>(r_par_apple);
-    std::cout << ref_apple.getName() << std::endl;
+    Scanner scanner(4, 5);
 
     return 0;
 }
