@@ -4,48 +4,41 @@
 
 #pragma once
 
-class PoweredDevice
+class Parent
 {
 public:
-    PoweredDevice(int power)
+    Parent(){}
+
+    virtual std::ostream& print(std::ostream& out) const
     {
-        std::cout << "PoweredDevice: " << power << std::endl;
+        out << "Parent";
+        return out;
+    }
+
+    friend std::ostream& operator<<(std::ostream& out, const Parent& p)
+    {
+        return p.print(out);
     }
 };
 
-class Scanner : virtual public PoweredDevice
+class Child : public Parent
 {
 public:
-    Scanner(int scanner, int power) : PoweredDevice(power)
-    {
-        std::cout << "Scanner: " << scanner << std::endl;
-    }
-};
+    Child(){}
 
-class Printer : virtual public PoweredDevice
-{
-public:
-    Printer(int printer, int power) : PoweredDevice(power)
+    std::ostream& print(std::ostream& out) const override
     {
-        std::cout << "Printer: " << printer << std::endl;
-    }
-};
-
-class Copier : public Scanner, public Printer
-{
-public:
-    Copier(int scanner, int printer, int power) : Scanner(scanner, power), Printer(printer, power), 
-        PoweredDevice(power)
-    {
-
+        out << "Child";
+        return out;
     }
 };
 
 int main()
 {
-    Copier copier(1, 2, 3);
+    Child ch;
+    Parent& p = ch;
 
-    Scanner scanner(4, 5);
+    std::cout << "p is a " << p << std::endl;
 
     return 0;
 }
