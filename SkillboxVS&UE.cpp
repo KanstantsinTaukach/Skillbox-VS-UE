@@ -1,36 +1,57 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <exception>
 
 #pragma once
 
-double mySqrt(double d)
+class ArrayException : public std::exception
 {
-	if (d < 0.0)
-	{
-		throw "can not take sqrt of negative number";
-	}
+private:
+	std::string m_error;
 
-	return sqrt(d);
-}
+public:
+	ArrayException(std::string error) : m_error(error) { }
+
+	const char* what() const noexcept { return m_error.c_str(); }
+};
+
+class ArrayInt
+{
+private:
+	int m_data[4];
+
+public:
+	ArrayInt() {}
+
+	int getLength() { return 4; }
+
+	int& operator[] (const int index)
+	{
+		if (index < 0 || index >= getLength())
+		{
+			throw ArrayException("Invalid index");
+		}
+
+		return m_data[index];
+	}
+};
 
 int main()
 {
-	std::cout << "Enter a number: ";
-	double d;
-	std::cin >> d;
+	ArrayInt array;
 
 	try
 	{
-		std::cout << "The sqrt of " << d << " is " << mySqrt(d) << "\n";
+		int value = array[5];
 	}
-	/*catch (const char* exception)
+	catch (ArrayException & exception)
 	{
-		std::cerr << "Exceptin caught in catch double " << exception << "\n";
-	}*/
-	catch (...)
+		std::cerr << "An array exceprion occurred (" << exception.what() << ")\n";
+	}
+	catch (std::exception & exception)
 	{
-		std::cerr << "Exceptin caught in catch all" << "\n";
+		std::cerr << "Some other std::exception occerred (" << exception.what() << ")\n";
 	}
 
 	return 0;
