@@ -4,71 +4,34 @@
 
 #pragma once
 
-void two();
-void three();
-void last();
-
-void one()
+double mySqrt(double d)
 {
-	std::cout << "Start one\n";
-	try
+	if (d < 0.0)
 	{
-		two();
+		throw "can not take sqrt of negative number";
 	}
-	catch (int)
-	{
-		std::cerr << "one caught int exception\n";
-	}
-	catch (double)
-	{
-		std::cerr << "one caught double exception\n";
-	}
-	std::cout << "End one\n";
-}
 
-void two()
-{
-	std::cout << "Start two\n";
-	try
-	{
-		three();
-	}
-	catch (double)
-	{
-		std::cerr << "two caught double exception\n";
-	}
-	std::cout << "End two\n";
-}
-
-void three()
-{
-	std::cout << "Start three\n";
-	last();
-	std::cout << "End three\n";
-}
-
-void last()
-{
-	std::cout << "Start last\n";
-	std::cout << "last throwing int exception\n";
-	throw - 1;
-	std::cout << "End last\n";
+	return sqrt(d);
 }
 
 int main()
 {
-	std::cout << "Start main\n";
-	
+	std::cout << "Enter a number: ";
+	double d;
+	std::cin >> d;
+
 	try
 	{
-		one();
+		std::cout << "The sqrt of " << d << " is " << mySqrt(d) << "\n";
 	}
-	catch (int)
+	/*catch (const char* exception)
 	{
-		std::cerr << "main caught int exception\n";
+		std::cerr << "Exceptin caught in catch double " << exception << "\n";
+	}*/
+	catch (...)
+	{
+		std::cerr << "Exceptin caught in catch all" << "\n";
 	}
-
-	std::cout << "End main\n";
 
 	return 0;
 }
