@@ -5,53 +5,31 @@
 
 #pragma once
 
-class ArrayException : public std::exception
+class Parent
 {
-private:
-	std::string m_error;
-
 public:
-	ArrayException(std::string error) : m_error(error) { }
-
-	const char* what() const noexcept { return m_error.c_str(); }
+	Parent() {}
 };
 
-class ArrayInt
+class Child : public Parent
 {
-private:
-	int m_data[4];
-
 public:
-	ArrayInt() {}
-
-	int getLength() { return 4; }
-
-	int& operator[] (const int index)
-	{
-		if (index < 0 || index >= getLength())
-		{
-			throw ArrayException("Invalid index");
-		}
-
-		return m_data[index];
-	}
+	Child() {}
 };
 
 int main()
 {
-	ArrayInt array;
-
 	try
 	{
-		int value = array[5];
+		throw Child();
 	}
-	catch (ArrayException & exception)
+	catch (Parent & parent)
 	{
-		std::cerr << "An array exceprion occurred (" << exception.what() << ")\n";
+		std::cerr << "caught Parent";
 	}
-	catch (std::exception & exception)
+	catch (Child & child)
 	{
-		std::cerr << "Some other std::exception occerred (" << exception.what() << ")\n";
+		std::cerr << "caught Child";
 	}
 
 	return 0;
